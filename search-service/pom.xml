@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>sman.cloud</groupId>
+	<artifactId>search-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>sman.cloud</groupId>
+		<artifactId>services</artifactId>
+		<version>0.1.0</version>
+	</parent>
+
+	<properties>
+        <docker.image.prefix>manstefan</docker.image.prefix>
+        <docker.project.name>search-service</docker.project.name>
+	</properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+            <version>${spring-data-solr.verion}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.solr/solr-core -->
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>6.3.0</version>
+        </dependency>
+
+    </dependencies>
+</project>
