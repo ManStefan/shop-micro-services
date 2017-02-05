@@ -6,4 +6,8 @@ target
 
 *.iml
 
+node_modules
+
+dist
+
 
