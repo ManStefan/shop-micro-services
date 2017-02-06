@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 
 import { ApiService } from './shared';
 
-import '../style/starter-template.css';
+ import '../style/offcanvas.css';
+
+
+
 
 @Component({
   selector: 'my-app', // <my-app></my-app>
@@ -15,4 +18,6 @@ export class AppComponent {
   constructor(private api: ApiService) {
     this.title = this.api.title;
   }
+
+
 }
