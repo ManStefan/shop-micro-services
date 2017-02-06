@@ -11,6 +11,8 @@ import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
+import { TRANSLATION_PROVIDERS, TranslatePipe, TranslateService }   from './translate';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -21,10 +23,13 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    TranslatePipe
   ],
   providers: [
-    ApiService
+    ApiService,
+    TRANSLATION_PROVIDERS,
+    TranslateService
   ],
   bootstrap: [AppComponent]
 })
