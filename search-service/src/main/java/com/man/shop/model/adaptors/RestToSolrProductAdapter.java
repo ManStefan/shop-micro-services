@@ -1,7 +1,7 @@
 package com.man.shop.model.adaptors;
 
-import com.man.shop.model.rest.RestProduct;
 import com.man.shop.model.solr.SolrProduct;
+import com.man.shop.rest.entites.RestProduct;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;

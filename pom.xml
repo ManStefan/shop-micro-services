@@ -16,6 +16,7 @@
         <module>gateway-service</module>
         <module>fe-service</module>
         <module>search-service</module>
+        <module>common</module>
     </modules>
 
     <parent>

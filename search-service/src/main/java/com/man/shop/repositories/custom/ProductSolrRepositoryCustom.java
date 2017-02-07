@@ -1,6 +1,5 @@
 package com.man.shop.repositories.custom;
 
-import com.man.shop.filters.model.ProductFilterRequest;
 import com.man.shop.model.solr.SolrProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.query.FacetQuery;

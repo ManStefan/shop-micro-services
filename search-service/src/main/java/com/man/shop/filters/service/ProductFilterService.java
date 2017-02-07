@@ -1,7 +1,7 @@
 package com.man.shop.filters.service;
 
-import com.man.shop.filters.model.ProductFilterRequest;
-import com.man.shop.filters.model.ProductFilterResponse;
+import com.man.shop.rest.entites.RestProductFilterRequest;
+import com.man.shop.rest.entites.RestProductFilterResponse;
 import com.man.shop.model.solr.SolrProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +25,7 @@ public class ProductFilterService {
     public static final String FACETED_ATTRIBUTES_HEADER_LABEL = "cat_of_attr_";
     public static final String FACETED_ATTRIBUTES_TRAILER_LABEL = "_ls";
 
-    public FacetQuery createFacetQuery(ProductFilterRequest productFilter) {
+    public FacetQuery createFacetQuery(RestProductFilterRequest productFilter) {
         FacetQuery facetQuery = new SimpleFacetQuery(new Criteria(Criteria.WILDCARD).expression(Criteria.WILDCARD));
 
         FacetOptions facetOptions = new FacetOptions();
@@ -98,8 +98,8 @@ public class ProductFilterService {
         return facetQuery;
     }
 
-    public ProductFilterResponse extractResponseFromFacets(FacetPage<SolrProduct> facets, ProductFilterRequest productFilterRequest){
-        ProductFilterResponse filterResponse = new ProductFilterResponse();
+    public RestProductFilterResponse extractResponseFromFacets(FacetPage<SolrProduct> facets, RestProductFilterRequest productFilterRequest){
+        RestProductFilterResponse filterResponse = new RestProductFilterResponse();
         filterResponse.setFilterRequest(productFilterRequest);
 
         //add the filtered products
@@ -140,7 +140,7 @@ public class ProductFilterService {
         return facets;
     }
 
-    private void addFilterForActiveProducts(ProductFilterRequest productFilter, FacetQuery facetQuery){
+    private void addFilterForActiveProducts(RestProductFilterRequest productFilter, FacetQuery facetQuery){
         Date now = new Date();
 
         //if we want all products, don't add any additional filter

@@ -1,6 +1,6 @@
 package com.man.shop.service.solr;
 
-import com.man.shop.filters.model.ProductFilterRequest;
+import com.man.shop.rest.entites.RestProductFilterRequest;
 import com.man.shop.model.solr.SolrProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ public interface SolrProductServiceI {
 
     public SolrProduct save(SolrProduct solrProduct);
 
-    public FacetPage<SolrProduct> getFacetsForProduct(ProductFilterRequest productFilter, Pageable page);
+    public FacetPage<SolrProduct> getFacetsForProduct(RestProductFilterRequest productFilter, Pageable page);
 
     public Page<SolrProduct> getLatestProducts(int n);
 

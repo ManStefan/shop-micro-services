@@ -1,14 +1,13 @@
 package com.man.shop.service.rest;
 
-import com.man.shop.filters.model.ProductFilterRequest;
-import com.man.shop.filters.model.ProductFilterResponse;
+import com.man.shop.rest.entites.RestProductFilterRequest;
+import com.man.shop.rest.entites.RestProductFilterResponse;
 import com.man.shop.filters.service.ProductFilterService;
 import com.man.shop.model.adaptors.RestToSolrProductAdapter;
-import com.man.shop.model.rest.RestProduct;
 import com.man.shop.model.solr.SolrProduct;
 import com.man.shop.repositories.ProductSolrRepository;
+import com.man.shop.rest.entites.RestProduct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.solr.core.query.result.FacetPage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -97,7 +96,7 @@ public class ProductService {
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    ProductFilterResponse filter(@RequestBody ProductFilterRequest productFilter){
+    RestProductFilterResponse filter(@RequestBody RestProductFilterRequest productFilter){
         return productFilterService.extractResponseFromFacets(
                 productSolrRepository.getFacetsForProduct(productFilterService.createFacetQuery(productFilter)),
                 productFilter

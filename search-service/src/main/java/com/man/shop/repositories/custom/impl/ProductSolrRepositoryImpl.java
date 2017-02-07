@@ -1,7 +1,5 @@
 package com.man.shop.repositories.custom.impl;
 
-import com.man.shop.filters.model.ProductFilterRequest;
-import com.man.shop.filters.service.ProductFilterService;
 import com.man.shop.model.solr.SolrProduct;
 import com.man.shop.repositories.custom.ProductSolrRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
