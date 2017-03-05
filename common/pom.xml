@@ -12,6 +12,13 @@
 		<groupId>sman.cloud</groupId>
 		<artifactId>services</artifactId>
 		<version>0.1.0</version>
-	</parent>
+    </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-client</artifactId>
+            <version>7.0.2</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -15,6 +15,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by smanolache on 1/19/2017.
@@ -103,6 +105,19 @@ public class ProductService {
         );
     }
 
+    @RequestMapping(value = "/newest/{n}", method = RequestMethod.GET)
+    List<Long> getNeweastProducts(@PathVariable Integer n){
+        List<SolrProduct> solrProducts = productSolrRepository.getLatestProducts(n).getContent();
+
+        return solrProducts.stream().map(product -> Long.valueOf(product.getId())).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "topBySales/{n}", method = RequestMethod.GET)
+    List<Long> getTopBySales(@PathVariable Integer n){
+        List<SolrProduct> solrProducts= productSolrRepository.getTopProductsBySales(n).getContent();
+
+        return solrProducts.stream().map(product -> Long.valueOf(product.getId())).collect(Collectors.toList());
+    }
 
     private URI saveSolrProduct(SolrProduct solrProduct){
         productSolrRepository.save(solrProduct);
