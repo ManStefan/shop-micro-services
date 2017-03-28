@@ -1,0 +1,55 @@
+[
+  {
+    "id":1,
+    "name": "the first product",
+    "description": "the first product description ",
+    "promo": true,
+    "promoPercentage": 15,
+    "unitsSold": 145,
+    "activationDate": "03.10.2017",
+    "expireDate": "12.01.2020",
+    "dateFormat": "dd.MM.yyyy",
+    "priceAmount": 120,
+    "categoryOfProduct": 1,
+    "categoryOfProductText": "Insecticide",
+    "attributes": [
+      {"ATTRIBUTES_CATEGORY": {"ID": "1", "NAME": "Attribute Cat 1"},
+        "ATTRIBUTES" : [{"ID": "1", "NAME":"attr_1_1"}, {"ID": "2", "NAME":"attr_1_2"}, {"ID": "3", "NAME":"attr_1_3"}]
+      },
+      {"ATTRIBUTES_CATEGORY": {"ID": "2", "NAME": "Attribute Cat 2"},
+        "ATTRIBUTES" : [{"ID": "4", "NAME":"attr_2_1"}]
+      }
+    ],
+    "quantity": 300,
+    "quantityStandard": 1,
+    "quantityStandardText": "kg",
+    "producer": 1,
+    "producerText": "Producer 1"
+  },
+  {
+    "id":2,
+    "name": "the second product ",
+    "description": "the second product description",
+    "promo": false,
+    "unitsSold": 45,
+    "activationDate": "03.03.2017",
+    "expireDate": "12.01.2021",
+    "dateFormat": "dd.MM.yyyy",
+    "priceAmount": 50,
+    "categoryOfProduct": 2,
+    "categoryOfProductText": "Pesticide",
+    "attributes": [
+      {"ATTRIBUTES_CATEGORY": {"ID": "1", "NAME": "Attribute Cat 1"},
+        "ATTRIBUTES" : [{"ID": "5", "NAME":"attr_1_5"}, {"ID": "2", "NAME":"attr_1_2"}, {"ID": "3", "NAME":"attr_1_3"}]
+      },
+      {"ATTRIBUTES_CATEGORY": {"ID": "3", "NAME": "Attribute Cat 3"},
+        "ATTRIBUTES" : [{"ID": "6", "NAME":"attr_6_1"}]
+      }
+    ],
+    "quantity": 200,
+    "quantityStandard": 2,
+    "quantityStandardText": "litru",
+    "producer": 2,
+    "producerText": "Producer 2"
+  }
+]

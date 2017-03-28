@@ -97,6 +97,13 @@ public class ProductService {
         return ResponseEntity.ok().build();
     }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    ResponseEntity<?> delete(){
+        productSolrRepository.deleteAll();
+
+        return ResponseEntity.ok().build();
+    }
+
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
     RestProductFilterResponse filter(@RequestBody RestProductFilterRequest productFilter){
         return productFilterService.extractResponseFromFacets(

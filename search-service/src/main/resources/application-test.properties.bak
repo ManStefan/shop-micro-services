@@ -1,0 +1,32 @@
+eureka.client.serviceUrl.defaultZone: http://192.168.99.100:8761/eureka/
+
+
+# SOLR
+solr.host=http://192.168.99.100:8984/solr/
+solr.core=shop_dev
+
+spring.cloud.discovery.enabled=false
+
+solr.config.schema=//D/me/store/microservices/shop-micro-services/common/src/main/resources/solr/config
+
+restProduct:
+    id:131
+    name: 'the second product after first'
+    description: 'the second product after first'
+    attributes:
+        - ATTRIBUTES_CATEGORY: 
+            - ID: 14 
+              NAME: x
+          ATTRIBUTES :
+            - ID: 36 
+              NAME: y
+            - ID: 37 
+              NAME:dgsdf
+            - ID: 40
+              NAME: eeerrrr
+        - ATTRIBUTES_CATEGORY 
+            - ID: 56 
+              NAME: x
+          ATTRIBUTES
+            - ID: 11
+              NAME: aaa

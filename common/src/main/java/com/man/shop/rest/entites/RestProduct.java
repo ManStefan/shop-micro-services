@@ -14,12 +14,13 @@ public class RestProduct {
     private String id;
     private String name;
     private String description;
+    private Boolean promo;
     private Integer promoPercentage;
     private Integer unitsSold;
-    private Boolean promo;
 
     private String activationDate;
     private String expireDate;
+    private String dateFormat;
 
     private Double priceAmount;
 
@@ -35,7 +36,7 @@ public class RestProduct {
     private Long producer;
     private String producerText;
 
-    private String dateFormat;
+
 
     public String getId() {
         return id;

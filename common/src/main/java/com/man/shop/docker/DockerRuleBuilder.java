@@ -1,4 +1,4 @@
-package com.man.shop.junit.docker;
+package com.man.shop.docker;
 
 import java.util.List;
 
@@ -50,6 +50,11 @@ public class DockerRuleBuilder {
 
   public DockerRuleBuilder binds(List<String> binds){
       params.binds = binds;
+      return this;
+  }
+
+  public DockerRuleBuilder instanceName(String instanceName){
+      params.instanceName = instanceName;
       return this;
   }
 

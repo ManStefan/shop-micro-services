@@ -1,4 +1,4 @@
-package com.man.shop.junit.docker;
+package com.man.shop.docker;
 
 import com.spotify.docker.client.*;
 import com.spotify.docker.client.exceptions.DockerCertificateException;
@@ -6,7 +6,6 @@ import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.rules.ExternalResource;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -31,7 +30,7 @@ import static com.spotify.docker.client.DockerClient.LogsParam.*;
  * </p>
  * author: Geoffroy Warin (geowarin.github.io)
  */
-public class DockerRule extends ExternalResource {
+public class DockerRule {
   protected final Log logger = LogFactory.getLog(getClass());
   public static final String DOCKER_MACHINE_SERVICE_URL = "https://192.168.99.100:2376";
 
@@ -51,15 +50,13 @@ public class DockerRule extends ExternalResource {
 
     try {
       dockerClient.pull(params.imageName);
-      container = dockerClient.createContainer(containerConfig);
+      container = dockerClient.createContainer(containerConfig, params.instanceName);
     } catch (DockerException | InterruptedException e) {
       throw new IllegalStateException(e);
     }
   }
 
-  @Override
-  protected void before() throws Throwable {
-    super.before();
+  public void before() throws Throwable {
     dockerClient.startContainer(container.id());
     ContainerInfo info = dockerClient.inspectContainer(container.id());
     ports = info.networkSettings().ports();
@@ -73,9 +70,7 @@ public class DockerRule extends ExternalResource {
     }
   }
 
-  @Override
-  protected void after() {
-    super.after();
+  public void after() {
     try {
       dockerClient.killContainer(container.id());
       dockerClient.removeContainer(container.id(), true);
@@ -91,11 +86,11 @@ public class DockerRule extends ExternalResource {
    *
    * @return The current docker host
    */
-  public String getDockerHost() {
+  private String getDockerHost() {
     return dockerClient.getHost();
   }
 
-  public void waitForPort(int port, long timeoutInMillis) {
+  private void waitForPort(int port, long timeoutInMillis) {
     SocketAddress address = new InetSocketAddress(getDockerHost(), port);
     long totalWait = 0;
     while (true) {
@@ -181,7 +176,7 @@ public class DockerRule extends ExternalResource {
     return configBuilder.build();
   }
 
-  public int getHostPort(String containerPort) {
+  private int getHostPort(String containerPort) {
     List<PortBinding> portBindings = ports.get(containerPort);
     if (portBindings.isEmpty()) {
       return -1;
@@ -194,7 +189,7 @@ public class DockerRule extends ExternalResource {
     return os.contains("nix") || os.contains("nux") || os.contains("aix");
   }
 
-  protected void waitForLog(String messageToMatch) throws DockerException, InterruptedException, UnsupportedEncodingException {
+  private void waitForLog(String messageToMatch) throws DockerException, InterruptedException, UnsupportedEncodingException {
     LogStream logs = dockerClient.logs(container.id(), follow(), stdout());
     String log;
     do {

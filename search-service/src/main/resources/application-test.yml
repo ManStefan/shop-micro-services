@@ -1,0 +1,22 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.99.100:8761/eureka/
+
+
+# SOLR
+solr:
+  create_container: false
+  remove_container: false
+  instanceName: solr_unit_test
+  host: http://192.168.99.100:8984/solr/
+  core: shop_dev
+  config:
+      schema: //D/me/store/microservices/shop-micro-services/common/src/main/resources/solr/config
+
+spring:
+  cloud:
+    discovery:
+      enabled: false
+
+

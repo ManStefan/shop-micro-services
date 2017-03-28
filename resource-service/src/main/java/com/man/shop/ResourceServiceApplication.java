@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @EnableDiscoveryClient
 @SpringBootApplication
@@ -59,7 +56,7 @@ class ServiceInstanceRestController {
         restProductFilterRequest.setAttributes(attributes);
 
 
-        List<Long> facetedCats = new ArrayList<>();
+        Set<Long> facetedCats = new HashSet<>();
         facetedCats.add(new Long(14));facetedCats.add(new Long(45));facetedCats.add(new Long(56));
         restProductFilterRequest.setFacetedCategoriesOfAttributes(facetedCats);
 
