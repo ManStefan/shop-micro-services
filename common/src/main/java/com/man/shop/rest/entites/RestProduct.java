@@ -1,7 +1,5 @@
 package com.man.shop.rest.entites;
 
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,13 @@ import java.util.Map;
  * This class is used as the input of the REST service for Creating/Modifying/Deleting products
  */
 public class RestProduct {
-    private String id;
+    public static final String ATTRIBUTES_CATEGORY_LABEL = "ATTRIBUTES_CATEGORY";
+    public static final String ATTRIBUTES_LABEL = "ATTRIBUTES";
+    public static final String ID = "ID";
+    public static final String NAME = "NAME";
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    private Long id;
     private String name;
     private String description;
     private Boolean promo;
@@ -20,9 +24,10 @@ public class RestProduct {
 
     private String activationDate;
     private String expireDate;
-    private String dateFormat;
+    private String dateFormat = DEFAULT_DATE_FORMAT;
 
     private Double priceAmount;
+    private String priceCurrency;
 
     private Long categoryOfProduct;
     private String categoryOfProductText;
@@ -36,13 +41,13 @@ public class RestProduct {
     private Long producer;
     private String producerText;
 
+    private List<Long> pictures;
 
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -108,6 +113,14 @@ public class RestProduct {
 
     public void setPriceAmount(Double priceAmount) {
         this.priceAmount = priceAmount;
+    }
+
+    public String getPriceCurrency() {
+        return priceCurrency;
+    }
+
+    public void setPriceCurrency(String priceCurrency) {
+        this.priceCurrency = priceCurrency;
     }
 
     public Long getCategoryOfProduct() {
@@ -180,5 +193,13 @@ public class RestProduct {
 
     public void setAttributes(List<Map<String, Object>> attributes) {
         this.attributes = attributes;
+    }
+
+    public List<Long> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Long> pictures) {
+        this.pictures = pictures;
     }
 }

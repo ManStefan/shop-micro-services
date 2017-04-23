@@ -2,3 +2,25 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://192.168.99.100:8761/eureka/
+
+
+# DB setup
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.99.100:3307/test
+    username: root
+    password: password
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  cloud:
+    discovery:
+      enabled: false
+
+mysql:
+  create_container: false
+  remove_container: false
+  instanceName: mysql_unit_test

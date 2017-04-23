@@ -1,8 +1,11 @@
 package com.man.shop.model;
 
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 
+import javax.money.MonetaryAmount;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.List;
 public class Product extends BasicEntity{
 
 	protected String name;
-	protected Double price;
+	protected MonetaryAmount price;
 	protected Integer quantity;
 	protected String description;
 	protected Boolean promo;
@@ -35,12 +38,16 @@ public class Product extends BasicEntity{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Column(name="price", nullable=false)
-	public Double getPrice() {
+
+	@Type(type = "com.man.shop.hibernate.PersistentMoneyUserType")
+	@Columns(columns = {
+	        @Column(name="price_currency"),
+            @Column(name="price_amount")
+    })
+	public MonetaryAmount getPrice() {
 		return price;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(MonetaryAmount price) {
 		this.price = price;
 	}
 	
@@ -153,40 +160,5 @@ public class Product extends BasicEntity{
 		this.pictures = pictures;
 	}
 
-	protected String createdBy;
-	protected String modifiedBy;
-	protected Date creationDate;
-	protected Date modifiedDate;
 
-	@Column(name = "created_by")
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	@Column(name = "modified_by")
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
-	@Column(name = "creation_date")
-	public Date getCreationDate() {
-		return creationDate;
-	}
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	@Column(name = "modified_date")
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
 }

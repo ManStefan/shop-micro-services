@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
+// TODO - need a way to stall the DB setup before after the Docker client initilisez the mysql container
+
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableEurekaClient

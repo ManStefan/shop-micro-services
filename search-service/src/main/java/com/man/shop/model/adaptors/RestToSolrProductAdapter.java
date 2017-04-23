@@ -18,17 +18,13 @@ import java.util.Map;
 @Service
 public class RestToSolrProductAdapter {
 
-    private static final String ATTRIBUTES_CATEGORY_LABEL = "ATTRIBUTES_CATEGORY";
-    private static final String ATTRIBUTES_LABEL = "ATTRIBUTES";
-    private static final String ID = "ID";
-    private static final String NAME = "NAME";
+
 
     public SolrProduct transformRestToToSolr(RestProduct restProduct) throws ParseException {
-        //TODO
 
         SolrProduct solrProduct = new SolrProduct();
 
-        solrProduct.setId(restProduct.getId());
+        solrProduct.setId(restProduct.getId().toString());
         solrProduct.setName(restProduct.getName());
         solrProduct.setDescription(restProduct.getDescription());
 
@@ -46,6 +42,7 @@ public class RestToSolrProductAdapter {
 
         solrProduct.setCategoryOfProduct(restProduct.getCategoryOfProduct());
         solrProduct.setPriceAmount(restProduct.getPriceAmount());
+        solrProduct.setPriceCurrency(restProduct.getPriceCurrency());
         solrProduct.setProducer(restProduct.getProducer());
         solrProduct.setPromo(restProduct.getPromo());
         solrProduct.setPromoPercentage(restProduct.getPromoPercentage());
@@ -58,15 +55,15 @@ public class RestToSolrProductAdapter {
             Map<String, List<Long>> attributesByCategoryIds = new HashMap<>();
 
             for (Map<String, Object> attributes : restProduct.getAttributes()){
-                Map<String, String> attrCat = (Map<String, String>)attributes.get(ATTRIBUTES_CATEGORY_LABEL);
-                List<Map<String, String>> attrsList = (List<Map<String, String>>)attributes.get(ATTRIBUTES_LABEL);
+                Map<String, String> attrCat = (Map<String, String>)attributes.get(RestProduct.ATTRIBUTES_CATEGORY_LABEL);
+                List<Map<String, String>> attrsList = (List<Map<String, String>>)attributes.get(RestProduct.ATTRIBUTES_LABEL);
 
                 List<Long> attrIdsPerCat = new ArrayList<>();
-                attributesByCategoryIds.put("cat_of_attr_" + attrCat.get(ID) + "_ls", attrIdsPerCat);
+                attributesByCategoryIds.put("cat_of_attr_" + attrCat.get(RestProduct.ID) + "_ls", attrIdsPerCat);
 
                 for (Map<String, String> attr : attrsList){
-                    allAttributesIds.add(Long.valueOf(attr.get(ID)));
-                    attrIdsPerCat.add(Long.valueOf(attr.get(ID)));
+                    allAttributesIds.add(Long.valueOf(attr.get(RestProduct.ID)));
+                    attrIdsPerCat.add(Long.valueOf(attr.get(RestProduct.ID)));
                 }
             }
             solrProduct.setAttributes(allAttributesIds);
@@ -74,16 +71,5 @@ public class RestToSolrProductAdapter {
         }
 
         return solrProduct;
-    }
-
-    public RestProduct transformSolrToRest(SolrProduct solrProduct){
-        RestProduct restProduct = new RestProduct();
-
-        restProduct.setId(solrProduct.getId());
-        restProduct.setName(solrProduct.getName());
-        restProduct.setDescription(solrProduct.getDescription());
-
-        //TODO
-        return new RestProduct();
     }
 }

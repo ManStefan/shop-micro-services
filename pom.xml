@@ -5,18 +5,18 @@
 
     <groupId>sman.cloud</groupId>
     <artifactId>services</artifactId>
-    <version>0.1.0</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Online Shop</name>
 
     <modules>
+        <module>common</module>
         <module>resource-service</module>
         <module>eureka-service</module>
         <module>gateway-service</module>
         <module>fe-service</module>
         <module>search-service</module>
-        <module>common</module>
     </modules>
 
     <parent>

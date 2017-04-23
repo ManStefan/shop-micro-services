@@ -25,6 +25,9 @@ public class SolrProduct {
     @Field(Fields.PRICE_AMOUNT)
     private Double priceAmount;
 
+    @Field(Fields.PRICE_CURRENCY)
+    private String priceCurrency;
+
     @Field(Fields.ATTRIBUTES)
     private List<Long> attributes;
 
@@ -180,11 +183,20 @@ public class SolrProduct {
         this.priceAmount = priceAmount;
     }
 
+    public String getPriceCurrency() {
+        return priceCurrency;
+    }
+
+    public void setPriceCurrency(String priceCurrency) {
+        this.priceCurrency = priceCurrency;
+    }
+
     public static class Fields{
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String DESCRIPTION = "description";
         public static final String PRICE_AMOUNT = "priceAmount";
+        public static final String PRICE_CURRENCY = "priceCurrency";
         public static final String ATTRIBUTES = "attributes";
         public static final String CATEGORY_OF_PRODUCT = "categoryOfProduct";
         public static final String QUANTITY = "quantity";

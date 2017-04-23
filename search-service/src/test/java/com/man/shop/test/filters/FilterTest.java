@@ -7,6 +7,7 @@ import com.man.shop.rest.entites.RestProduct;
 import com.man.shop.rest.entites.RestProductFilterRequest;
 import com.man.shop.test.BaseSearchTest;
 import com.man.shop.utils.JsonUtils;
+import com.man.shop.utils.PlatformConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SearchServiceApplication.class)
 @WebAppConfiguration
-@ActiveProfiles("test")
+@ActiveProfiles(PlatformConstants.Environments.Constants.TEST_VALUE)
 public class FilterTest extends BaseSearchTest {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),

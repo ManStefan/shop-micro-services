@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  datasource:
+    testWhileIdle: true
+    validationQuery: SELECT 1
 
 server:
   port: 9191
