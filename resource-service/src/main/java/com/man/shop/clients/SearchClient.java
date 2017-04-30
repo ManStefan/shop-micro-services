@@ -32,7 +32,7 @@ public interface SearchClient {
     RestProductFilterResponse filter(@RequestBody RestProductFilterRequest productFilter);
 
     @RequestMapping(method = RequestMethod.GET, value = "/product/newest/{n}")
-    List<Long> getNewestProducts(@PathVariable Integer n);
+    List<Long> getNewestProducts(@PathVariable(name = "n") Integer n);
 
 
 }

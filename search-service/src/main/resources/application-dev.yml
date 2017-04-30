@@ -6,4 +6,4 @@ eureka:
 # SOLR
 solr:
   host: http://192.168.99.100:8983/solr/
-  core: shop_dev
+  core: shop

@@ -10,7 +10,7 @@ import static com.man.shop.utils.PlatformConstants.*;
 public class LoadSearchClientCondition extends AllNestedConditions {
 
     public LoadSearchClientCondition() {
-        super(ConfigurationPhase.REGISTER_BEAN);
+        super(ConfigurationPhase.PARSE_CONFIGURATION);
     }
 
     @ConditionalOnProperty(name = "spring.profiles.active", havingValue = Environments.Constants.DEV_VALUE)

@@ -1,7 +1,7 @@
 package com.man.shop.hibernate;
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
@@ -76,7 +76,7 @@ public class PersistentMoneyUserType implements CompositeUserType, Serializable 
     }
 
     @Override
-    public Object nullSafeGet(ResultSet resultSet, String[] strings, SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException, SQLException {
+    public Object nullSafeGet(ResultSet resultSet, String[] strings, SessionImplementor sharedSessionContractImplementor, Object o) throws HibernateException, SQLException {
         if (resultSet == null){
             throw new HibernateException("Null value has been passed for the parameter resultSet!");
         }
@@ -91,7 +91,7 @@ public class PersistentMoneyUserType implements CompositeUserType, Serializable 
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement preparedStatement, Object o, int i, SharedSessionContractImplementor sharedSessionContractImplementor) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement preparedStatement, Object o, int i, SessionImplementor sharedSessionContractImplementor) throws HibernateException, SQLException {
 
         if (o != null){
             preparedStatement.setString(i, ((MonetaryAmount)o).getCurrency().getCurrencyCode());
@@ -113,17 +113,17 @@ public class PersistentMoneyUserType implements CompositeUserType, Serializable 
     }
 
     @Override
-    public Serializable disassemble(Object o, SharedSessionContractImplementor sharedSessionContractImplementor) throws HibernateException {
+    public Serializable disassemble(Object o, SessionImplementor sharedSessionContractImplementor) throws HibernateException {
         return (Serializable) o;
     }
 
     @Override
-    public Object assemble(Serializable serializable, SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
+    public Object assemble(Serializable serializable, SessionImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
         return serializable;
     }
 
     @Override
-    public Object replace(Object o, Object o1, SharedSessionContractImplementor sharedSessionContractImplementor, Object o2) throws HibernateException {
+    public Object replace(Object o, Object o1, SessionImplementor sharedSessionContractImplementor, Object o2) throws HibernateException {
         return o;
     }
 }
