@@ -13,6 +13,10 @@ public class ObjectsCacheService {
 
     private ConcurrentHashMap<String, SimpleDateFormat> dateFormatCache;
 
+    public ObjectsCacheService(){
+        this.dateFormatCache = new ConcurrentHashMap<>();
+    }
+
     public SimpleDateFormat getDateFormat(String format){
         if (dateFormatCache.containsKey(format)){
             return dateFormatCache.get(format);

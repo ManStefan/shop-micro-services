@@ -12,13 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by smanolache on 3/31/2017.
@@ -69,5 +68,12 @@ public class ProductService {
     }
 
 
+    @RequestMapping(method = RequestMethod.GET, value = "/newest/{n}")
+    List<RestProduct> getNewestProducts(@PathVariable(name = "n") Integer n){
+        return searchClient.getNewestProducts(n)
+                .stream()
+                .map(id -> restToDAOTranformer.transformProductFromDAOToRest(productRepository.findOne(id)))
+                .collect(Collectors.toList());
+    }
 
 }

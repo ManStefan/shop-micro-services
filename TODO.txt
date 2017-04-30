@@ -1,0 +1,1 @@
+- When Feign  client fails when adding a product, we must revert also the transaction in the DB

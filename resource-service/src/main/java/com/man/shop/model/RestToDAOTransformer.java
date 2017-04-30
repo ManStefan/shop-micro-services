@@ -158,4 +158,13 @@ public class RestToDAOTransformer {
 
         return quantityStandard;
     }
+
+    public Producer transformProducerFromRestRoDAO(RestProducer restProducer){
+        Producer producer = new Producer();
+
+        producer.setId(restProducer.getId());
+        producer.setName(restProducer.getName());
+
+        return producer;
+    }
 }
