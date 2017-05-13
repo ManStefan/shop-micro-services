@@ -6,7 +6,7 @@ import {Http} from "@angular/http";
 export class ProductService {
 
   // private headers = new Headers({'Content-Type': 'application/json'});
-  private productsUrl = 'http://localhost:8181/product/newest/';
+  private productsUrl = '/product/newest/';
 
   constructor(private http: Http) { }
 
