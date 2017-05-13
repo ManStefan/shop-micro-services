@@ -1,1 +1,3 @@
 - When Feign  client fails when adding a product, we must revert also the transaction in the DB
+- creation and update time not updated in tables
+- upgade from ang 2 to ang 4

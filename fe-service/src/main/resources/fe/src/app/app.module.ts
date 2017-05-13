@@ -12,6 +12,8 @@ import { routing } from './app.routing';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 import { TRANSLATION_PROVIDERS, TranslatePipe, TranslateService }   from './translate';
+import {ProductService} from "./shared/services/product.service";
+
 
 @NgModule({
   imports: [
@@ -29,7 +31,8 @@ import { TRANSLATION_PROVIDERS, TranslatePipe, TranslateService }   from './tran
   providers: [
     ApiService,
     TRANSLATION_PROVIDERS,
-    TranslateService
+    TranslateService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })

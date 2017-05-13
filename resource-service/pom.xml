@@ -4,12 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>sman.cloud</groupId>
+        <groupId>com.man.shop</groupId>
         <artifactId>services</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-	<groupId>sman.cloud</groupId>
+	<groupId>com.man.shop</groupId>
 	<artifactId>resource-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -18,6 +19,35 @@
         <docker.image.prefix>manstefan</docker.image.prefix>
         <docker.project.name>resource-service</docker.project.name>
 	</properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${docker.project.name}</finalName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.11</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <dockerHost>https://192.168.99.100:2376</dockerHost>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${docker.project.name}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -31,7 +61,7 @@
         </dependency>
 
         <dependency>
-            <groupId>sman.cloud</groupId>
+            <groupId>com.man.shop</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
