@@ -1,4 +1,4 @@
-package com.man.shop.service;
+package com.man.shop.service.rest;
 
 import com.man.shop.model.CategoryOfProduct;
 import com.man.shop.model.RestToDAOTransformer;

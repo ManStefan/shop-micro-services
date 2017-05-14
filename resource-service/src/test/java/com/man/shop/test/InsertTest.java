@@ -1,10 +1,8 @@
 package com.man.shop.test;
 
 import com.man.shop.ResourceServiceApplication;
-import com.man.shop.model.CategoryOfProduct;
 import com.man.shop.repositories.CategoryOfProductRepository;
 import com.man.shop.rest.entites.RestCategoryOfProduct;
-import com.man.shop.service.CategoryOfProductService;
 import com.man.shop.utils.PlatformConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +35,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @SpringBootTest(classes = ResourceServiceApplication.class)
 @WebAppConfiguration
 @ActiveProfiles(PlatformConstants.Environments.Constants.TEST_VALUE)
-public class TestInsert extends BaseResourceTest{
+public class InsertTest extends BaseResourceTest{
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -66,7 +64,7 @@ public class TestInsert extends BaseResourceTest{
     }
 
     @Test
-    public void emptyTest() throws Exception {
+    public void testInsert() throws Exception {
         RestCategoryOfProduct restCategoryOfProduct = new RestCategoryOfProduct();
         restCategoryOfProduct.setName("First");
         restCategoryOfProduct.setLevel(1);

@@ -4,6 +4,10 @@ spring:
   datasource:
     testWhileIdle: true
     validationQuery: SELECT 1
+  http:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
 
 server:
   port: 9191
@@ -11,3 +15,5 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
+
+pictures.storage: D:\me\store\microservices\pictures

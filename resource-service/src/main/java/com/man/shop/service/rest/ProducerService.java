@@ -1,13 +1,9 @@
-package com.man.shop.service;
+package com.man.shop.service.rest;
 
-import com.man.shop.model.CategoryOfProduct;
 import com.man.shop.model.Producer;
 import com.man.shop.model.RestToDAOTransformer;
-import com.man.shop.repositories.CategoryOfProductRepository;
 import com.man.shop.repositories.ProducerRepository;
-import com.man.shop.rest.entites.RestCategoryOfProduct;
 import com.man.shop.rest.entites.RestProducer;
-import com.man.shop.rest.entites.RestProduct;
 import com.man.shop.rest.exceptions.ResourceNotAddedException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;

@@ -7,9 +7,7 @@ import java.util.Date;
 @Table(name="PICTURE")
 public class Picture extends BasicEntity{
 	protected String name;
-	protected String path;
 	protected String description;
-	protected byte[] content;
 	protected boolean main;
 
 	protected Product product;
@@ -20,14 +18,6 @@ public class Picture extends BasicEntity{
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Column(name="path")
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
 	}
 
 	@Column(name="description")
@@ -46,15 +36,6 @@ public class Picture extends BasicEntity{
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	@Column(name="content")
-	public byte[] getContent() {
-		return content;
-	}
-
-	public void setContent(byte[] content) {
-		this.content = content;
 	}
 
 	@Column(name="main")
