@@ -32,7 +32,7 @@ import {ProductService} from "./shared/services/product.service";
     ApiService,
     TRANSLATION_PROVIDERS,
     TranslateService,
-    ProductService
+    ProductService,
   ],
   bootstrap: [AppComponent]
 })

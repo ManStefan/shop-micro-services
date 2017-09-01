@@ -6,7 +6,7 @@ import com.man.shop.model.RestToDAOTransformer;
 import com.man.shop.repositories.AttributeRepository;
 import com.man.shop.repositories.CategoryOfAttributeRepository;
 import com.man.shop.rest.entites.RestAttribute;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
+import com.man.shop.rest.exceptions.AttributeException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,25 +36,25 @@ public class AttributeService {
     private RestToDAOTransformer restToDAOTransformer;
 
     @RequestMapping(path = "/category/{categoryId}", method = RequestMethod.POST)
-    ResponseEntity<?> addAttribute(@PathVariable Long categoryId, @RequestBody RestAttribute restAttribute){
+    ResponseEntity<?> addAttribute(@PathVariable Long categoryId, @RequestBody RestAttribute restAttribute) throws AttributeException {
 
         if (restAttribute.getId() != null){
             String message = "You want to add a new attribute, but you provided an ID!";
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            logger.error(message);
+            throw new AttributeException(message);
         }
 
         CategoryOfAttribute categoryOfAttribute = categoryOfAttributeRepository.findOne(categoryId);
         if (categoryOfAttribute == null){
             String message = String.format("Category with id %d can't be found in the DB!", categoryId);
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            logger.error(message);
+            throw new AttributeException(message);
         }
 
         if (restAttribute.getName() == null || restAttribute.getName().isEmpty()){
             String message = "Can't add an attribute with empty name!";
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            logger.error(message);
+            throw new AttributeException(message);
         }
 
         Attribute attribute = restToDAOTransformer.transformAttributeFromRestToDAO(restAttribute);

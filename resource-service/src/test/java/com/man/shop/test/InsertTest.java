@@ -67,7 +67,6 @@ public class InsertTest extends BaseResourceTest{
     public void testInsert() throws Exception {
         RestCategoryOfProduct restCategoryOfProduct = new RestCategoryOfProduct();
         restCategoryOfProduct.setName("First");
-        restCategoryOfProduct.setLevel(1);
         restCategoryOfProduct.setDescription("Desc");
 
         mockMvc.perform(post("/category_of_product")

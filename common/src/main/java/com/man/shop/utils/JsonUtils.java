@@ -32,4 +32,10 @@ public class JsonUtils {
 
         return gson.toJson(object);
     }
+
+    public static <T> T fromJson(String json, Class<T> clazz){
+        Gson gson = new Gson();
+
+        return gson.fromJson(json, clazz);
+    }
 }

@@ -4,7 +4,7 @@ import com.man.shop.model.Producer;
 import com.man.shop.model.RestToDAOTransformer;
 import com.man.shop.repositories.ProducerRepository;
 import com.man.shop.rest.entites.RestProducer;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
+import com.man.shop.rest.exceptions.ProducerException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,12 @@ public class ProducerService {
     private ProducerRepository producerRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> addProducer(@RequestBody RestProducer restProducer){
+    ResponseEntity<?> addProducer(@RequestBody RestProducer restProducer) throws ProducerException {
 
         if (restProducer.getName() == null || restProducer.getName().isEmpty()){
             String errorMsg = "The name of the producer can not be blank!";
-            logger.warn(errorMsg);
-            throw new ResourceNotAddedException(errorMsg);
+            logger.error(errorMsg);
+            throw new ProducerException(errorMsg);
         }
 
         Producer producer = producerRepository.save(restToDAOTransformer.transformProducerFromRestRoDAO(restProducer));

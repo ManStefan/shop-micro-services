@@ -13,7 +13,9 @@ import java.util.List;
  */
 @Repository
 public interface CategoryOfProductRepository  extends PagingAndSortingRepository<CategoryOfProduct, Long> {
-    public List<CategoryOfProduct> findDistinctByLevel(int level);
+//    public List<CategoryOfProduct> findDistinctByLevel(int level);
 
     public List<CategoryOfProduct> findByNameIgnoreCaseLike(@Param("name") String name, Pageable page);
+
+    public Long countByNameIgnoreCase(@Param("name") String name);
 }

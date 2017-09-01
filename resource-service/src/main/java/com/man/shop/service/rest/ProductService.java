@@ -5,7 +5,7 @@ import com.man.shop.model.Product;
 import com.man.shop.model.RestToDAOTransformer;
 import com.man.shop.repositories.ProductRepository;
 import com.man.shop.rest.entites.RestProduct;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
+import com.man.shop.rest.exceptions.ProductException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +39,12 @@ public class ProductService {
     private SearchClient searchClient;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@RequestBody RestProduct restProduct){
+    ResponseEntity<?> add(@RequestBody RestProduct restProduct) throws ProductException {
 
         if (restProduct.getId() != null){
             String message = "You want to add a new product, but you provided an ID!";
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            logger.error(message);
+            throw new ProductException(message);
         }
 
         final Product product;
@@ -52,14 +52,14 @@ public class ProductService {
              product = productRepository.save(restToDAOTranformer.transformProductFromRestToDAO(restProduct));
         } catch (ParseException e) {
             logger.error("ERROR in transforming RestProduct to DAO: " + e, e);
-            throw new ResourceNotAddedException(e.getMessage());
+            throw new ProductException(e.getMessage());
         }
 
         restProduct.setId(product.getId());
         ResponseEntity response = searchClient.addProductToSolr(restProduct);
         if (!response.getStatusCode().equals(HttpStatus.CREATED)){
             logger.error("ERROR in adding the product into SOLR database: " + response.toString());
-            throw new ResourceNotAddedException(response.getBody().toString());
+            throw new ProductException(response.getBody().toString());
         }
 
         URI location = ResourceUtils.buildProductResource(product.getId().toString());

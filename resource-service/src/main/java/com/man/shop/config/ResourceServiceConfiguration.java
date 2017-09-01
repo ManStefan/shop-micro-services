@@ -27,16 +27,6 @@ public class ResourceServiceConfiguration {
     @Value("${pictures.storage}")
     private String picturesStorage;
 
-//    @Bean
-//    public ObjectsCacheService objectsCacheService(){
-//        return new ObjectsCacheService();
-//    }
-//
-//    @Bean
-//    public TimeSource timeSource(){
-//        return new RealTimeSource();
-//    }
-
     @Bean
     public StorageProperties getStorageProperties(){
         StorageProperties storageProperties = new StorageProperties();

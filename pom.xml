@@ -15,6 +15,7 @@
         <module>resource-service</module>
         <module>eureka-service</module>
         <module>fe-service</module>
+        <module>admin-app</module>
         <module>search-service</module>
     </modules>
 

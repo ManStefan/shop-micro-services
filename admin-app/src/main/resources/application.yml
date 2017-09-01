@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: dev
+
+server:
+  port: 8585
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+url:
+  baseResourceServerUrl: http://resource-service
+  searchProductCategoryByName: /category_of_product/name/{name}?page={page}&size={size}
+  searchProductCategoryById: /category_of_product/id/{id}
+  updateProductCategory: /category_of_product/
+  deleteProductCategory: /category_of_product/id/{id}
+  addProductCategory: /category_of_product/
+  getCategoryOfProduct: /category_of_product/id/{id}

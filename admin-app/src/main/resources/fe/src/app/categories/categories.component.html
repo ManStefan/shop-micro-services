@@ -1,0 +1,80 @@
+<div class="jumbotron">
+  <h2>{{'admin_categories_title' | translate}}</h2>
+
+  <br>
+
+  <div id="bla1" class="form-group" [class.has-danger]="searchFailed">
+    <h4><label for="typeahead-http-category">{{'select_a_category' | translate}}</label></h4>
+    <input name="typeahead-http-category" id="typeahead-http-category" type="text" class="form-control"
+           [(ngModel)]="model"
+           [ngbTypeahead]="search"
+           [inputFormatter]="showSearchValue"
+           [resultFormatter]="showSearchValue"
+           (selectItem)="selectCategory($event)"
+           (keydown)="deselectCategory()"
+           placeholder="{{'search_for_a_category' | translate}}" />
+    <span *ngIf="searching">{{searching_label | translate}}</span>
+    <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+  </div>
+
+  <br>
+
+  <div *ngIf="userSelectedItem">
+    <h4>{{'you_have_selected' | translate}}</h4>
+    <table>
+      <tr>
+        <td><b>{{'id' | translate}}</b></td>
+        <td><input id="prod_cat_id" [(ngModel)] = "userSelectedItem.id" class="form-control" readonly/></td>
+      </tr>
+      <tr>
+        <td><p class="form-control-static"><b>{{'name' | translate}}</b></p></td>
+        <td><input id="new_name" [(ngModel)] = "userSelectedItem.name" class="form-control"/></td>
+      </tr>
+      <tr>
+        <td><b>{{'description' | translate}}</b></td>
+        <td><input id="new_description" [(ngModel)] = "userSelectedItem.description" class="form-control"/></td>
+      </tr>
+      <tr>
+        <td><b>{{'level' | translate}}</b></td>
+        <td><input id="new_level" [(ngModel)] = "userSelectedItem.level" class="form-control"/></td>
+      </tr>
+      <tr>
+        <td><b>{{'parent_cat' | translate}}</b></td>
+        <td>
+          <div id="bla2" class="form-group" [class.has-danger]="searchFailedParent">
+            <input name="typeahead-http-parent-category" id="typeahead-http-parent-category" type="text" class="form-control"
+                   [(ngModel)]="parent_cat_model"
+                   [ngbTypeahead]="searchParent"
+                   [inputFormatter]="showSearchValue"
+                   [resultFormatter]="showSearchValue"
+                   (selectItem)="selectParentCategory($event)"
+                   (keydown)="deselectParentCategory()"
+                   placeholder="{{'search_for_a_category' | translate}}"
+                   value="{{showSelectedParentValue}}"
+            />
+            <span *ngIf="searchingParent">{{searching_label | translate}}</span>
+            <div class="form-control-feedback" *ngIf="searchFailedParent">Sorry, suggestions could not be loaded.</div>
+          </div>
+        </td>
+
+      </tr>
+      <tr>
+        <td><b>{{'child_cat' | translate}}</b></td>
+        <td>{{userSelectedItem.childCategories}}</td>
+      </tr>
+    </table>
+
+    <br>
+
+    <h4>{{'modify_option' | translate}}</h4>
+    <button id='update_category_btn' type="submit" class="btn btn-primary" (click)='updateCategory()'>{{'apply' | translate}} !</button>
+
+    <br>
+    <br>
+
+    <h4>{{'delete_option' | translate}}</h4>
+    <button id='delete_category_btn' type="submit" class="btn btn-danger">{{'apply' | translate}} !</button>
+
+  </div>
+
+</div>

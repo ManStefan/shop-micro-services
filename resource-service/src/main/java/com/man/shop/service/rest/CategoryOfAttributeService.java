@@ -4,7 +4,7 @@ import com.man.shop.model.CategoryOfAttribute;
 import com.man.shop.model.RestToDAOTransformer;
 import com.man.shop.repositories.CategoryOfAttributeRepository;
 import com.man.shop.rest.entites.RestCategoryOfAttribute;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
+import com.man.shop.rest.exceptions.CategoryOfAttributeException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,12 @@ public class CategoryOfAttributeService {
     private RestToDAOTransformer restToDAOTransformer;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> addCategory(@RequestBody RestCategoryOfAttribute restCategoryOfAttribute){
+    ResponseEntity<?> addCategory(@RequestBody RestCategoryOfAttribute restCategoryOfAttribute) throws CategoryOfAttributeException {
 
         if (restCategoryOfAttribute.getName() == null || restCategoryOfAttribute.getName().isEmpty()){
-            String errorMsg = "The name of the category can't be empty!";
-            logger.warn(errorMsg);
-            throw new ResourceNotAddedException(errorMsg);
+            String exMsg = "The name of the category can't be empty!";
+            logger.error(exMsg);
+            throw new CategoryOfAttributeException(exMsg);
         }
 
         CategoryOfAttribute categoryOfAttribute = categoryOfAttributeRepository.save(restToDAOTransformer.transformCategoryOfAttributeFromRestToDAO(restCategoryOfAttribute));
@@ -48,4 +48,6 @@ public class CategoryOfAttributeService {
 
         return ResponseEntity.created(location).body(location);
     }
+
+
 }

@@ -139,15 +139,49 @@ public class RestToDAOTransformer {
         return attribute;
     }
 
-    public CategoryOfProduct transformCategoryOfProductToDAO(RestCategoryOfProduct restCategoryOfProduct){
+    public CategoryOfProduct transformCategoryOfProductFromRestToDAO(RestCategoryOfProduct restCategoryOfProduct){
         CategoryOfProduct categoryOfProduct = new CategoryOfProduct();
 
         categoryOfProduct.setId(restCategoryOfProduct.getId());
         categoryOfProduct.setName(restCategoryOfProduct.getName());
-        categoryOfProduct.setLevel(restCategoryOfProduct.getLevel());
         categoryOfProduct.setDescription(restCategoryOfProduct.getDescription());
+        categoryOfProduct.setLevel(restCategoryOfProduct.getLevel());
+        if (restCategoryOfProduct.getParentCategory() != null){
+            categoryOfProduct.setParentCategory(categoryOfProductRepository.findOne(restCategoryOfProduct.getParentCategory()));
+        }
+
+//        if (restCategoryOfProduct.getChildCategories() != null){
+//            List<CategoryOfProduct> childCategories = new ArrayList<>();
+//            restCategoryOfProduct.getChildCategories().forEach(childCategoryId -> {
+//                childCategories.add(categoryOfProductRepository.findOne(childCategoryId));
+//            });
+//
+//            categoryOfProduct.setChildCategories(childCategories);
+//        }
 
         return categoryOfProduct;
+    }
+
+    public RestCategoryOfProduct transformCategoryOfProductFromDAOtoRest(CategoryOfProduct categoryOfProduct){
+        RestCategoryOfProduct restCategoryOfProduct = new RestCategoryOfProduct();
+
+        restCategoryOfProduct.setId(categoryOfProduct.getId());
+        restCategoryOfProduct.setName(categoryOfProduct.getName());
+        restCategoryOfProduct.setDescription(categoryOfProduct.getDescription());
+
+        if (categoryOfProduct.getParentCategory() != null){
+            restCategoryOfProduct.setParentCategory(categoryOfProduct.getParentCategory().getId());
+        }
+
+        if (categoryOfProduct.getChildCategories() != null){
+            restCategoryOfProduct.setChildCategories(
+                    categoryOfProduct.getChildCategories()
+                    .stream()
+                    .map(childCategory -> childCategory.getId())
+                    .collect(Collectors.toList()));
+        }
+
+        return restCategoryOfProduct;
     }
 
     public QuantityStandard tranformQuantityStandardToDAO(RestQuantityStandard restQuantityStandard){

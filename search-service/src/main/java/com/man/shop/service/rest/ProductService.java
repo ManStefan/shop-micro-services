@@ -1,15 +1,13 @@
 package com.man.shop.service.rest;
 
-import com.man.shop.rest.entites.RestProductFilterRequest;
-import com.man.shop.rest.entites.RestProductFilterResponse;
 import com.man.shop.filters.service.ProductFilterService;
 import com.man.shop.model.adaptors.RestToSolrProductAdapter;
 import com.man.shop.model.solr.SolrProduct;
 import com.man.shop.repositories.ProductSolrRepository;
 import com.man.shop.rest.entites.RestProduct;
-import com.man.shop.rest.exceptions.ResourceNotFoundException;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
-import com.man.shop.rest.exceptions.ResourceNotUpdatedException;
+import com.man.shop.rest.entites.RestProductFilterRequest;
+import com.man.shop.rest.entites.RestProductFilterResponse;
+import com.man.shop.rest.exceptions.SolrProductException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,22 +41,22 @@ public class ProductService {
     private ProductFilterService productFilterService;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@RequestBody RestProduct restProduct){
+    ResponseEntity<?> add(@RequestBody RestProduct restProduct) throws SolrProductException {
         validateRestProduct(restProduct);
 
         if (productSolrRepository.findOne(restProduct.getId().toString()) != null){
-            String message = "Item not added: you want to add a new product to solr, but there is already an item with the same id: " + restProduct.getId();
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            String errorMsg = "Item not added: you want to add a new product to solr, but there is already an item with the same id: " + restProduct.getId();
+            logger.error(errorMsg);
+            throw new SolrProductException();
         }
 
         SolrProduct solrProduct = null;
         try {
             solrProduct = restToSolrProductAdapter.transformRestToToSolr(restProduct);
         } catch (ParseException e) {
-            String message = "Error in transforming the REST product to SOLR product: " + e.getMessage();
-            logger.error(message, e);
-            throw new ResourceNotAddedException(message);
+            String errorMessage = "Error in transforming the REST product to SOLR product: " + e.getMessage();
+            logger.error(errorMessage);
+            throw new SolrProductException(errorMessage);
         }
 
         productSolrRepository.save(solrProduct);
@@ -68,24 +66,24 @@ public class ProductService {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    ResponseEntity<?> update(@RequestBody RestProduct restProduct){
+    ResponseEntity<?> update(@RequestBody RestProduct restProduct) throws SolrProductException {
         validateRestProduct(restProduct);
 
         if (productSolrRepository.findOne(restProduct.getId().toString()) == null){
-            RuntimeException e = new ResourceNotFoundException(restProduct.getId().toString());
-            logger.warn("Can't find product in SOLR database: " + e, e);
-            throw e;
+            String errorMessage = "Can't find product in SOLR database";
+            logger.error(errorMessage);
+            throw new SolrProductException(errorMessage);
         }
 
-        URI location = null;
+        URI location;
         try {
             SolrProduct solrProduct = restToSolrProductAdapter.transformRestToToSolr(restProduct);
             productSolrRepository.save(solrProduct);
             location = buildProductResource(solrProduct.getId().toString());
         } catch (ParseException e) {
-            String message = "Error in transforming the REST product to SOLR product: " + e.getMessage();
-            logger.error(message, e);
-            throw new ResourceNotUpdatedException(message);
+            String errorMessage = "Error in transforming the REST product to SOLR product: " + e.getMessage();
+            logger.error(errorMessage);
+            throw new SolrProductException(errorMessage);
         }
 
         return ResponseEntity.created(location).build();
@@ -93,15 +91,14 @@ public class ProductService {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> delete(@PathVariable String id){
+    ResponseEntity<?> delete(@PathVariable String id) throws SolrProductException {
         SolrProduct solrProduct = productSolrRepository.findOne(id);
 
         if (solrProduct == null){
-            RuntimeException e = new ResourceNotFoundException(id.toString());
-            logger.warn("Can't find product in SOLR database for deleting: " + e, e);
-            throw e;
+            String errorMessage = "Can't find product in SOLR database for deleting";
+            logger.error(errorMessage);
+            throw new SolrProductException(errorMessage);
         }
-
         productSolrRepository.delete(id.toString());
 
         return ResponseEntity.ok().build();
@@ -110,7 +107,6 @@ public class ProductService {
     @RequestMapping(method = RequestMethod.DELETE)
     ResponseEntity<?> deleteAll(){
         productSolrRepository.deleteAll();
-
         return ResponseEntity.ok().build();
     }
 
@@ -125,14 +121,12 @@ public class ProductService {
     @RequestMapping(value = "/newest/{n}", method = RequestMethod.GET)
     List<Long> getNewestProducts(@PathVariable Integer n){
         List<SolrProduct> solrProducts = productSolrRepository.getLatestProducts(n).getContent();
-
         return solrProducts.stream().map(product -> Long.valueOf(product.getId())).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "topBySales/{n}", method = RequestMethod.GET)
     List<Long> getTopBySales(@PathVariable Integer n){
         List<SolrProduct> solrProducts= productSolrRepository.getTopProductsBySales(n).getContent();
-
         return solrProducts.stream().map(product -> Long.valueOf(product.getId())).collect(Collectors.toList());
     }
 

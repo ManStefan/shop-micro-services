@@ -4,18 +4,19 @@ import com.man.shop.model.CategoryOfProduct;
 import com.man.shop.model.RestToDAOTransformer;
 import com.man.shop.repositories.CategoryOfProductRepository;
 import com.man.shop.rest.entites.RestCategoryOfProduct;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
+import com.man.shop.rest.exceptions.CategoryOfProductException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by smanolache on 4/6/2017.
@@ -34,18 +35,70 @@ public class CategoryOfProductService {
     private CategoryOfProductRepository categoryOfProductRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> addCategoryOfProduct(@RequestBody RestCategoryOfProduct restCategoryOfProduct){
+    ResponseEntity<?> addCategoryOfProduct(@RequestBody RestCategoryOfProduct restCategoryOfProduct) throws CategoryOfProductException {
 
         if (restCategoryOfProduct.getName() == null || restCategoryOfProduct.getName().isEmpty()){
             String errorMsg = "The name of the category of product can not be blank!";
-            logger.warn(errorMsg);
-            throw new ResourceNotAddedException(errorMsg);
+            logger.error(errorMsg);
+            throw new CategoryOfProductException(errorMsg);
         }
 
-        CategoryOfProduct categoryOfProduct = categoryOfProductRepository.save(restToDAOTransformer.transformCategoryOfProductToDAO(restCategoryOfProduct));
+        CategoryOfProduct categoryOfProduct = categoryOfProductRepository.save(restToDAOTransformer.transformCategoryOfProductFromRestToDAO(restCategoryOfProduct));
 
-        URI location = ResourceUtils.buildProductResource(categoryOfProduct.getId().toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryOfProduct.getId().toString());
+    }
 
-        return ResponseEntity.created(location).body(location);
+    @GetMapping("/name/{name}")
+    List<RestCategoryOfProduct> searchCategoryOfProductByName(@PathVariable String name, Pageable pageable){
+        return categoryOfProductRepository.findByNameIgnoreCaseLike("%"+ name + "%", pageable)
+                .stream()
+                .map(categoryOfProduct -> restToDAOTransformer.transformCategoryOfProductFromDAOtoRest(categoryOfProduct))
+                .collect(Collectors.toList());
+
+    }
+
+    @GetMapping("/id/{id}")
+    RestCategoryOfProduct getCategoryOfProductById(@PathVariable Long id){
+        return restToDAOTransformer.transformCategoryOfProductFromDAOtoRest(categoryOfProductRepository.findOne(id));
+    }
+
+    @PutMapping
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    void updateCategoryOfProduct(@RequestBody RestCategoryOfProduct restCategoryOfProduct) throws CategoryOfProductException {
+        if (restCategoryOfProduct.getId() == null){
+            String errorMsg = "You must specify the id of the category that you want to modify!";
+            logger.error(errorMsg);
+            throw new CategoryOfProductException(errorMsg);
+        }
+
+        CategoryOfProduct categoryOfProduct = categoryOfProductRepository.findOne(restCategoryOfProduct.getId());
+
+        if (categoryOfProduct == null){
+            String errorMsg = "The product category with id " + restCategoryOfProduct.getId() + " can't be found!";
+            logger.error(errorMsg);
+            throw new CategoryOfProductException(errorMsg);
+        }
+
+        if (restCategoryOfProduct.getName() == null || restCategoryOfProduct.getName().isEmpty()){
+            String errorMsg = "The name of the category must not be empty!";
+            logger.error(errorMsg);
+            throw new CategoryOfProductException(errorMsg);
+        }
+
+        if (!restCategoryOfProduct.getName().equals(categoryOfProduct.getName())) {
+            if (categoryOfProductRepository.countByNameIgnoreCase(restCategoryOfProduct.getName()) > 0) {
+                String errorMsg = "There is already another category with the same name!";
+                logger.error(errorMsg);
+                throw new CategoryOfProductException(errorMsg);
+            }
+
+            categoryOfProduct.setName(restCategoryOfProduct.getName());
+        }
+
+        //TODO - update parent category
+
+        categoryOfProduct.setDescription(restCategoryOfProduct.getDescription());
+
+        categoryOfProductRepository.save(categoryOfProduct);
     }
 }

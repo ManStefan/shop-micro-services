@@ -4,7 +4,7 @@ import com.man.shop.model.QuantityStandard;
 import com.man.shop.model.RestToDAOTransformer;
 import com.man.shop.repositories.QuantityStandardRepository;
 import com.man.shop.rest.entites.RestQuantityStandard;
-import com.man.shop.rest.exceptions.ResourceNotAddedException;
+import com.man.shop.rest.exceptions.QuantityStandardException;
 import com.man.shop.rest.resource.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +34,17 @@ public class QuantityStandardService {
     private RestToDAOTransformer restToDAOTransformer;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> add(@RequestBody  RestQuantityStandard restQuantityStandard){
+    ResponseEntity<?> add(@RequestBody  RestQuantityStandard restQuantityStandard) throws QuantityStandardException {
         if (restQuantityStandard.getId() != null){
             String message = "You wanted to add a new Quantity Standard, but you provided an ID!";
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            logger.error(message);
+            throw new QuantityStandardException(message);
         }
 
         if (restQuantityStandard.getName() == null || restQuantityStandard.getName().isEmpty()){
             String message = "The name of the quantity standard entity can not be empty!";
-            logger.warn(message);
-            throw new ResourceNotAddedException(message);
+            logger.error(message);
+            throw new QuantityStandardException(message);
         }
 
         QuantityStandard quantityStandard = restToDAOTransformer.tranformQuantityStandardToDAO(restQuantityStandard);
